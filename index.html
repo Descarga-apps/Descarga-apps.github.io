@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Descarga Mis Apps | APKs Premium</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css"/>
+    <style>
+        :root {
+            --primary: #6c5ce7;
+            --primary-dark: #5649c0;
+            --secondary: #00cec9;
+            --secondary-dark: #00a8a5;
+            --dark: #2d3436;
+            --light: #f5f6fa;
+            --gray: #636e72;
+            --white: #ffffff;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        @font-face {
+            font-family: 'Poppins';
+            font-style: normal;
+            font-weight: 400;
+            src: url(https://fonts.gstatic.com/s/poppins/v20/pxiEyp8kv8JHgFVrJJfecg.woff2) format('woff2');
+        }
+        
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--white);
+            padding: 3rem 0;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+            transform: rotate(30deg);
+            z-index: 1;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+            animation: fadeInUp 0.8s ease-out;
+            position: relative;
+            z-index: 2;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .tagline {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+            animation: fadeIn 1s ease-out 0.3s both;
+        }
+        
+        .apps-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2.5rem;
+            padding: 4rem 0;
+        }
+        
+        .app-card {
+            background: var(--white);
+            border-radius: 18px;
+            width: 380px;
+            overflow: hidden;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .app-card:hover {
+            transform: translateY(-12px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .app-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(108,92,231,0.1) 0%, rgba(0,206,201,0.1) 100%);
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .app-card:hover::after {
+            opacity: 1;
+        }
+        
+        .app-content {
+            padding: 2rem;
+        }
+        
+        .app-title {
+            font-size: 1.7rem;
+            margin-bottom: 0.8rem;
+            color: var(--primary);
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .app-description {
+            margin-bottom: 1.8rem;
+            color: var(--gray);
+            font-size: 1.05rem;
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--primary);
+            color: var(--white);
+            padding: 0.9rem 1.8rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            flex: 1;
+            min-width: 140px;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            box-shadow: 0 4px 12px rgba(108, 92, 231, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .download-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(255,255,255,0.2), rgba(255,255,255,0));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .download-btn:hover::before {
+            opacity: 1;
+        }
+        
+        .secondary-btn {
+            background: var(--secondary);
+            box-shadow: 0 4px 12px rgba(0, 206, 201, 0.3);
+        }
+        
+        .download-btn:hover {
+            transform: translateY(-3px);
+        }
+        
+        .primary-btn:hover {
+            background: var(--primary-dark);
+            box-shadow: 0 6px 16px rgba(108, 92, 231, 0.4);
+        }
+        
+        .secondary-btn:hover {
+            background: var(--secondary-dark);
+            box-shadow: 0 6px 16px rgba(0, 206, 201, 0.4);
+        }
+        
+        /* Slider Styles */
+        .app-slider-container {
+            padding: 3rem 0;
+            position: relative;
+        }
+        
+        .swiper {
+            width: 100%;
+            height: 400px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
+        }
+        
+        .swiper-slide {
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        
+        .swiper-slide::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.5) 100%);
+        }
+        
+        .swiper-pagination-bullet {
+            width: 12px;
+            height: 12px;
+            background: var(--white);
+            opacity: 0.6;
+            transition: all 0.3s ease;
+        }
+        
+        .swiper-pagination-bullet-active {
+            background: var(--primary);
+            opacity: 1;
+            transform: scale(1.2);
+        }
+        
+        .swiper-button-next, .swiper-button-prev {
+            width: 50px;
+            height: 50px;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(5px);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+        
+        .swiper-button-next:hover, .swiper-button-prev:hover {
+            background: rgba(255,255,255,0.3);
+            transform: scale(1.1);
+        }
+        
+        .swiper-button-next::after, .swiper-button-prev::after {
+            font-size: 1.5rem;
+            color: var(--white);
+            font-weight: bold;
+        }
+        
+        footer {
+            background: var(--dark);
+            color: var(--white);
+            text-align: center;
+            padding: 3rem 0;
+            margin-top: 2rem;
+            position: relative;
+        }
+        
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes fadeInUp {
+            from { 
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Floating animation */
+        .floating {
+            animation: floating 6s ease-in-out infinite;
+        }
+        
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .swiper {
+                height: 350px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .tagline {
+                font-size: 1.1rem;
+            }
+            
+            .apps-container {
+                flex-direction: column;
+                align-items: center;
+                gap: 2rem;
+                padding: 3rem 0;
+            }
+            
+            .app-card {
+                width: 100%;
+                max-width: 400px;
+            }
+            
+            .swiper {
+                height: 250px;
+            }
+            
+            .btn-group {
+                flex-direction: column;
+            }
+            
+            .download-btn {
+                width: 100%;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .container {
+                padding: 0 1.5rem;
+            }
+            
+            .swiper {
+                height: 200px;
+                border-radius: 12px;
+            }
+            
+            .app-content {
+                padding: 1.5rem;
+            }
+            
+            .app-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Descarga Mis Apps Premium</h1>
+            <p class="tagline">Obtén las versiones completas directamente en tu dispositivo Android con un solo clic</p>
+        </div>
+    </header>
+    
+    <main class="container">
+        <!-- Slider de imágenes mejorado -->
+        <div class="app-slider-container">
+            <div class="swiper mySwiper">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide" style="background-image: url('https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');"></div>
+                    <div class="swiper-slide" style="background-image: url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');"></div>
+                    <div class="swiper-slide" style="background-image: url('https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');"></div>
+                    <div class="swiper-slide" style="background-image: url('https://images.unsplash.com/photo-1522542550221-31fd19575a2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');"></div>
+                </div>
+                <div class="swiper-pagination"></div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+            </div>
+        </div>
+        
+        <!-- Apps para descargar -->
+        <div class="apps-container">
+            <!-- App 1 -->
+            <div class="app-card floating" style="animation-delay: 0.1s;">
+                <div class="app-content">
+                    <h2 class="app-title">Alfa Amigo</h2>
+                    <p class="app-description">Conecta con amigos y comparte momentos increíbles. La mejor app para socializar y encontrar personas con tus mismos intereses.</p>
+                    <div class="btn-group">
+                        <a href="TU_ENLACE_DIRECTO_APK_ALFA_AMIGO" class="download-btn primary-btn" download="AlfaAmigo.apk">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="7 10 12 15 17 10"></polyline>
+                                <line x1="12" y1="15" x2="12" y2="3"></line>
+                            </svg>
+                            Descargar APK
+                        </a>
+                        <a href="https://alfa-amigo-mr71.onrender.com/" class="download-btn secondary-btn" target="_blank">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;">
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                <polyline points="15 3 21 3 21 9"></polyline>
+                                <line x1="10" y1="14" x2="21" y2="3"></line>
+                            </svg>
+                            Ver Demo Web
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- App 2 -->
+            <div class="app-card floating" style="animation-delay: 0.3s;">
+                <div class="app-content">
+                    <h2 class="app-title">Safe Home</h2>
+                    <p class="app-description">Monitorea y protege tu hogar desde cualquier lugar con nuestra solución inteligente. Recibe alertas en tiempo real.</p>
+                    <div class="btn-group">
+                        <a href="TU_ENLACE_DIRECTO_APK_SAFE_HOME" class="download-btn primary-btn" download="SafeHome.apk">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="7 10 12 15 17 10"></polyline>
+                                <line x1="12" y1="15" x2="12" y2="3"></line>
+                            </svg>
+                            Descargar APK
+                        </a>
+                        <a href="https://safe-home-6oic.onrender.com/" class="download-btn secondary-btn" target="_blank">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;">
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                <polyline points="15 3 21 3 21 9"></polyline>
+                                <line x1="10" y1="14" x2="21" y2="3"></line>
+                            </svg>
+                            Ver Demo Web
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <footer>
+        <div class="container">
+            <p>© <span id="current-year"></span> Mis Apps Premium. Todos los derechos reservados.</p>
+            <p>Versiones certificadas y libres de malware.</p>
+        </div>
+    </footer>
+    
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+    
+    <script>
+        // Inicializar Swiper mejorado
+        const swiper = new Swiper(".mySwiper", {
+            effect: "coverflow",
+            grabCursor: true,
+            centeredSlides: true,
+            slidesPerView: "auto",
+            loop: true,
+            coverflowEffect: {
+                rotate: 0,
+                stretch: 0,
+                depth: 150,
+                modifier: 2.5,
+                slideShadows: true,
+            },
+            pagination: {
+                el: ".swiper-pagination",
+                clickable: true,
+                dynamicBullets: true,
+            },
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+            },
+            autoplay: {
+                delay: 3500,
+                disableOnInteraction: false,
+                pauseOnMouseEnter: true,
+            },
+            breakpoints: {
+                640: {
+                    coverflowEffect: {
+                        rotate: 10,
+                        stretch: 20,
+                    }
+                }
+            }
+        });
+        
+        // Actualizar año actual
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+        
+        // Efecto de confeti al descargar
+        const downloadButtons = document.querySelectorAll('.primary-btn');
+        
+        downloadButtons.forEach(button => {
+            button.addEventListener('click', function(e) {
+                // Solo si el enlace no está vacío
+                if(this.getAttribute('href') === 'TU_ENLACE_DIRECTO_APK_ALFA_AMIGO' || 
+                   this.getAttribute('href') === 'TU_ENLACE_DIRECTO_APK_SAFE_HOME') {
+                    e.preventDefault();
+                    alert('Por favor reemplaza TU_ENLACE_DIRECTO_APK_... con el enlace real a tus APKs');
+                    return;
+                }
+                
+                const appName = this.closest('.app-card').querySelector('.app-title').textContent;
+                console.log(`Iniciando descarga de: ${appName}`);
+                
+                // Aquí puedes agregar Google Analytics o otro tracking
+                // Ejemplo: gtag('event', 'download', { 'app_name': appName });
+                
+                // Efecto de confeti (requeriría incluir la librería canvas-confetti)
+                // confetti({
+                //     particleCount: 100,
+                //     spread: 70,
+                //     origin: { y: 0.6 }
+                // });
+            });
+        });
+        
+        // Animación al cargar
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.app-card');
+            cards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.2}s`;
+            });
+        });
+    </script>
+</body>
+</html>
